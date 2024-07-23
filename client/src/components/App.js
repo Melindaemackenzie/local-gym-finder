@@ -1,8 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { BrowserRouter as  Router,  Route, Routes } from "react-router-dom";
+import Home from "./Home";
+import Gyms from "./Gyms";
+import WorkoutClasses from "./WorkoutClasses";
+import Reviews from "./Reviews";
+import { AuthProvider } from "./AuthContext";
+import Signup from "./Signup"
+import Login from "./Login"
+import AddGym from './AddGym';
+
 
 function App() {
-  return <h1>Project Client</h1>;
+  return (
+    <Router>
+      <AuthProvider>
+        <div className="App">
+        <br />
+          <Routes>
+            <Route path="/" exact ={true} element={<Home />} />
+            <Route path="/gyms" element={<Gyms />} />
+            <Route path="/workout-classes" element={<WorkoutClasses />} />
+            <Route path="/reviews" element={<Reviews />} />
+            <Route path= "/login" element={<Login />} />
+            <Route path= '/signup' element={<Signup />} />
+            <Route path= '/add-gym' element={<AddGym />} />
+          </Routes>
+        </div>
+      </AuthProvider>
+    </Router>
+  );
 }
 
 export default App;
+  
