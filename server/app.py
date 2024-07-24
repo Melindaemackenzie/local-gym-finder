@@ -28,6 +28,9 @@ api.add_resource(Login, '/login')
 api.add_resource(CheckSession, '/session')
 
 
+
+
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

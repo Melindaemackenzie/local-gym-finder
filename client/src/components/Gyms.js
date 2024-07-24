@@ -105,6 +105,7 @@ function Gyms() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(reviewData),
+      credentials: 'include',
     })
       .then((response) => {
         if (!response.ok) {
@@ -123,8 +124,8 @@ function Gyms() {
 
   const handleDeleteGym = (gymId) => {
     console.log(gymId)
-    if (window.confirm("Are you sure you want to delete this gym?")) {
-      fetch(`http://localhost:5555/gym/${gymId}`, {
+      if (window.confirm("Are you sure you want to delete this gym?")) {
+      fetch(`/gym/${gymId}`, {
         method: 'DELETE',
         credentials: 'include',
         headers: {

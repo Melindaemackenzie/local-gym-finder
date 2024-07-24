@@ -2,6 +2,7 @@ from flask_restful import Resource
 from config import api,db
 from models import *
 from flask import request, jsonify, Blueprint, session, request
+from flask_cors import CORS, cross_origin
 
 class GymResource(Resource):
 
@@ -50,12 +51,16 @@ class GymResource(Resource):
         gym.website = data.get('website')
         db.session.commit()
         return {'message': 'Gym updated', 'gym': gym.to_dict()}
-
+    
+    @cross_origin()
     def delete(self, gym_id):
         try:
             gym = Gym.query.get(gym_id)
             if not gym:
                 return jsonify({'error': 'Gym not found'}), 404
+            
+            Review.query.filter_by(gym_id=gym.id).delete()
+            
             db.session.delete(gym)
             db.session.commit()
             return jsonify({'message': 'Gym deleted', 'gym': gym.to_dict()}), 204
@@ -63,6 +68,7 @@ class GymResource(Resource):
             print(f"Error deleting gym: {e}")  # Log the error
             db.session.rollback()  # Rollback in case of error
             return jsonify({'error': 'Internal Server Error'}), 500
+    
     
 class UserResource(Resource):
 
@@ -208,6 +214,7 @@ class ReviewsResource(Resource):
         
         return jsonify({'message': 'Review added successfully', 'review_id': new_review.to_dict()}), 201
 
+    
     def delete(self, review_id):
         review = Review.query.get(review_id)
         if not review:
