@@ -9,7 +9,7 @@ import * as Yup from "yup";
 
 function Gyms() {
   const [gyms, setGyms] = useState([]);
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
   const [selectedGymReviews, setSelectedGymReviews] = useState({});
   const [reviewsVisible, setReviewsVisible] = useState({}); 
   const [showReviewForm, setShowReviewForm] = useState({}); // State to toggle review form
@@ -17,12 +17,13 @@ function Gyms() {
   const [loading, setLoading] = useState(true);
   const [editGymData, setEditGymData] = useState({});
 
+  useEffect(() => {
+    console.log(isLoggedIn)
+    fetchGyms();
+  }, []);
 
   
-  useEffect(() => {
-    checkSession();
-    fetchGyms() // Check session on component mount
-  }, []);
+
 
   const fetchGyms = () => {
     fetch("http://localhost:5555/gym")
@@ -37,6 +38,23 @@ function Gyms() {
         setLoading(false);
       });
   };
+
+  /*const checkSession = () => {
+    fetch("http://localhost:5555/session", { credentials: 'include'})
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setIsLoggedIn(data.logged_in);
+      })
+      .catch((error) => {
+        console.error("Error checking session:", error);
+        setIsLoggedIn(false); // Set to false if session check fails
+      });
+  };*/
 
   const fetchReviews = (gymId) => {
     console.log(gymId)
@@ -63,22 +81,7 @@ function Gyms() {
     }
   };
 
-  const checkSession = () => {
-    fetch("http://localhost:5555/session", { credentials: 'include'})
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setIsLoggedIn(data.logged_in);
-      })
-      .catch((error) => {
-        console.error("Error checking session:", error);
-        setIsLoggedIn(false); // Set to false if session check fails
-      });
-  };
+  
 
   /*const handleLeaveReview = () => {
     setShowReviewForm(!showReviewForm); // Toggle review form visibility
@@ -99,7 +102,7 @@ function Gyms() {
     console.log(gymId)
     console.log(values)
     console.log(reviewData)
-    fetch(`http://localhost:5555/gym/${gymId}/reviews`, {
+    fetch(`/gym/${gymId}/reviews`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -124,8 +127,9 @@ function Gyms() {
 
   const handleDeleteGym = (gymId) => {
     console.log(gymId)
+    console.log("delete Gym function called with ID:", gymId)
       if (window.confirm("Are you sure you want to delete this gym?")) {
-      fetch(`/gym/${gymId}`, {
+      fetch(`/gym/${gymId}/`, {
         method: 'DELETE',
         credentials: 'include',
         headers: {
@@ -196,6 +200,7 @@ function Gyms() {
     <div>
       <Navbar />
       <h1>Gyms</h1>
+      
       <ul>
         {gyms.map((gym) => (
           <li key={gym.id}>

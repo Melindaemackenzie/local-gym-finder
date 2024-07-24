@@ -19,9 +19,9 @@ class Gym(db.Model, SerializerMixin):
     address = db.Column(db.String(200), nullable=False)
     phone = db.Column(db.String(13))
     website = db.Column(db.String(200))
-    workout_classes = db.relationship('WorkoutClass', back_populates='gym', lazy=True)
+    workout_classes = db.relationship('WorkoutClass', back_populates='gym', lazy=True, cascade="all, delete-orphan")#Delete workout classes when gym is deleted
     users = db.relationship('User', secondary=gym_user, back_populates='gyms', lazy='dynamic')
-    reviews = db.relationship('Review', back_populates='gym', lazy=True, cascade="all, delete-orphan")
+    reviews = db.relationship('Review', back_populates='gym', lazy=True, cascade="all, delete-orphan")#Delete reviews when gym is deleted
 
     def to_dict(self):
         return {

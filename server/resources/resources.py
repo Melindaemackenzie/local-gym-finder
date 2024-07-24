@@ -1,8 +1,11 @@
 from flask_restful import Resource
-from config import api,db
+from config import api,db, app
 from models import *
 from flask import request, jsonify, Blueprint, session, request
 from flask_cors import CORS, cross_origin
+
+
+
 
 class GymResource(Resource):
 
@@ -54,13 +57,14 @@ class GymResource(Resource):
     
     @cross_origin()
     def delete(self, gym_id):
+        
         try:
             gym = Gym.query.get(gym_id)
             if not gym:
                 return jsonify({'error': 'Gym not found'}), 404
             
             Review.query.filter_by(gym_id=gym.id).delete()
-            
+
             db.session.delete(gym)
             db.session.commit()
             return jsonify({'message': 'Gym deleted', 'gym': gym.to_dict()}), 204
@@ -270,9 +274,9 @@ class Login(Resource):
 
 class CheckSession(Resource):
     def get(self):
-        #if 'user_id' in session:
+        if 'user_id' in session:
             return {'isLoggedIn': True}, 200
-        #return {'isLoggedIn': False}, 401
+        return {'isLoggedIn': False}, 401
     
     
 
