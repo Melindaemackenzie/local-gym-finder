@@ -129,7 +129,7 @@ function Gyms() {
     console.log(gymId)
     console.log("delete Gym function called with ID:", gymId)
       if (window.confirm("Are you sure you want to delete this gym?")) {
-      fetch(`/gym/${gymId}/`, {
+      fetch(`/gym/${gymId}`, {
         method: 'DELETE',
         credentials: 'include',
         headers: {

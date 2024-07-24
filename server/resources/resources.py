@@ -67,7 +67,7 @@ class GymResource(Resource):
 
             db.session.delete(gym)
             db.session.commit()
-            return jsonify({'message': 'Gym deleted', 'gym': gym.to_dict()}), 204
+            return jsonify({'message': 'Gym deleted', 'gym': gym.to_dict()}), 200
         except Exception as e:
             print(f"Error deleting gym: {e}")  # Log the error
             db.session.rollback()  # Rollback in case of error
