@@ -89,8 +89,19 @@ class WorkoutClass(db.Model, SerializerMixin):
     type = db.Column(db.String(50))
     rating = db.Column(db.Integer)
     gym_id= db.Column(db.Integer, db.ForeignKey('gyms.id'), nullable = False)
-
+    
     gym = db.relationship('Gym', back_populates='workout_classes')
+
+    def to_dict(self):
+        return {
+            'id':self.id,
+            'name':self.name,
+            'schedule': self.schedule,
+            'type': self.type,
+            'rating': self.rating,
+            'gym_id': self.gym_id,
+            'gym_name': self.gym.name
+            }
 
     #@property
     #def serialize(self):

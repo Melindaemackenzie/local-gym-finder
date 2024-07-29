@@ -59,7 +59,7 @@ def seed_data():
     
     # Create some workout classes
     workout_classes = [
-        WorkoutClass(name='Yoga Basics', type='Yoga', rating=4, gym_id=1),
+        WorkoutClass(name='Yoga Basics', type='Yoga', schedule= 'Mon, Wed, Fri 6:00A', rating=4, gym_id=1),
         WorkoutClass(name='Advanced Pilates', type='Pilates', rating=5, gym_id=2),
         WorkoutClass(name='Cardio Blast', type='Cardio', rating=3, gym_id=3)
     ]

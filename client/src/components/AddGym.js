@@ -4,9 +4,10 @@ import * as Yup from 'yup';
 import { useContext } from 'react';
 import { AuthContext } from './AuthContext';
 import Navbar from './Navbar'
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 const AddGym = () => {
     const { isLoggedIn } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -44,6 +45,7 @@ const AddGym = () => {
 
                 resetForm();
                 alert('Gym added successfully!');
+                navigate('/gyms')
             } catch (error) {
                 setFieldError('general', error.message);
             }

@@ -8,6 +8,7 @@ import { AuthProvider } from "./AuthContext";
 import Signup from "./Signup"
 import Login from "./Login"
 import AddGym from './AddGym';
+import AddWorkoutClass from './AddWorkoutClass';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path= "/login" element={<Login />} />
             <Route path= '/signup' element={<Signup />} />
             <Route path= '/add-gym' element={<AddGym />} />
+            <Route path= '/add-workout_class' element={<AddWorkoutClass />} />
           </Routes>
         </div>
       </AuthProvider>

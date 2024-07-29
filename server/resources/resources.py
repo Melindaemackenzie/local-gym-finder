@@ -1,8 +1,9 @@
 from flask_restful import Resource
 from config import api,db, app
 from models import *
-from flask import request, jsonify, Blueprint, session, request
+from flask import request, jsonify, Blueprint, session, request, make_response
 from flask_cors import CORS, cross_origin
+import traceback
 
 
 
@@ -118,15 +119,49 @@ class WorkoutClassResource(Resource):
             else:
                 workout_classes = WorkoutClass.query.all()
             return [workout_class.to_dict() for workout_class in workout_classes], 200
-    
+        
     def post(self):
         data = request.get_json()
+        if not data:
+            return {'error': 'No data provided'}, 400
+
+        required_fields = ['name', 'schedule', 'type', 'rating', 'gym_name']
+        if not all(field in data for field in required_fields):
+            return {'error': 'Missing required fields'}, 400
 
         name = data.get('name')
         schedule = data.get('schedule')
         type = data.get('type')
         rating = data.get('rating')
         gym_name = data.get('gym_name')
+        
+
+        if not name or not schedule or not type or not rating or not gym_name :
+            return {'error': 'Name, schedule, type, rating, gym name are required'}, 400
+
+        try:
+            gym = Gym.query.filter_by(name=gym_name).first()
+            if not gym:
+                return {'error': 'Gym not found'}, 404
+
+            new_workout_class = WorkoutClass(
+                name=name,
+                schedule=schedule,
+                type=type,
+                rating=rating,
+                gym_id=gym.id,
+                
+            )
+            db.session.add(new_workout_class)
+            db.session.commit()
+
+            return {'message': 'Workout class added successfully', 'workout_class': new_workout_class.to_dict()}, 201
+        except Exception as e:
+            print(f"Error adding workout class: {e}")
+            traceback.print_exc()
+            db.session.rollback()
+            return {'error': 'Internal Server Error'}, 500
+        
 
         if not name or not type or not gym_name:
             return {'error': 'Missing required fields'}, 400
@@ -140,7 +175,8 @@ class WorkoutClassResource(Resource):
             schedule=schedule,
             type=type,
             rating=rating,
-            gym_id=gym.id
+            gym_id=gym.id,
+            user_id=user_id
         )
         db.session.add(new_workout_class)
         db.session.commit()
@@ -199,24 +235,40 @@ class ReviewsResource(Resource):
     def post(self, gym_id=None):
         if not gym_id:
             return jsonify({'error': 'Gym ID is required'}), 400
-        
+
         data = request.get_json()
         if not data:
             return jsonify({'error': 'No data provided'}), 400
-        
-        # Assuming 'text' and 'rating' are required fields in your POST request
+
         content = data.get('content')
         rating = data.get('rating')
         user_id = data.get('user_id')
-        
-        if not content or not rating:
-            return jsonify({'error': 'Text and rating are required'}), 400
-        
-        new_review = Review(gym_id=gym_id, content=content, rating=rating, user_id=user_id)
-        db.session.add(new_review)
-        db.session.commit()
-        
-        return jsonify({'message': 'Review added successfully', 'review_id': new_review.to_dict()}), 201
+
+        if not content or not rating or not user_id:
+            return jsonify({'error': 'Content, rating, and user ID are required'}), 400
+
+        try:
+            gym = Gym.query.get(gym_id)
+            if not gym:
+                return jsonify({'error': 'Gym not found'}), 404
+
+            user = User.query.get(user_id)
+            if not user:
+                return jsonify({'error': 'User not found'}), 404
+
+            new_review = Review(gym_id=gym_id, content=content, rating=rating, user_id=user_id)
+            db.session.add(new_review)
+            db.session.commit()
+            
+
+            review_dict = new_review.to_dict()
+            
+            return jsonify({'message': 'Review added successfully', 'review': review_dict}), 201
+        except Exception as e:
+            print(f"Error adding review: {e}")
+            traceback.print_exc()  # Print the full traceback
+            db.session.rollback()
+            return jsonify({'error': 'Internal Server Error'}), 500
 
     
     def delete(self, review_id):
@@ -275,8 +327,12 @@ class Login(Resource):
 class CheckSession(Resource):
     def get(self):
         if 'user_id' in session:
-            return {'isLoggedIn': True}, 200
-        return {'isLoggedIn': False}, 401
+            user_id = session['user_id']
+            response = make_response(jsonify({'isLoggedIn': True, 'user_id': user_id}), 200)
+        else:
+            response = make_response(jsonify({'isLoggedIn': False}), 401)
+        return response
+        
     
     
 

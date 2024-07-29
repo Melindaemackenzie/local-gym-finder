@@ -25,10 +25,10 @@ function WorkoutClasses() {
                     {workoutClasses.map((workoutClass) => (
                       <li key={workoutClass.id}>
                         <h2>{workoutClass.name}</h2>
-                        <p>{workoutClass.schedule}</p>
-                        <p>{workoutClass.type}</p>
-                        <p>{workoutClass.rating}</p>
-                        {workoutClass.gym && <p>{workoutClass.gym.name}</p>}
+                        <p>Schedule: {workoutClass.schedule}</p>
+                        <p>Type: {workoutClass.type}</p>
+                        <p>Rating: {workoutClass.rating}</p>
+                         <p>{workoutClass.gym_name}</p>
                         
                         
                         

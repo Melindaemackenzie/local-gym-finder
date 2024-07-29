@@ -31,6 +31,17 @@ function Navbar () {
                 Home
             </NavLink>
             <NavLink
+                to="/signup"
+                exact
+                style={linkStyles}
+                activestyle={{
+                    background: "darkblue",
+                    color: "white",
+                }}
+            >
+                Sign Up
+            </NavLink>
+            <NavLink
             to = "/gyms"
             exact
             style={linkStyles}
@@ -53,17 +64,6 @@ function Navbar () {
                 Workout Classes
             </NavLink>
             <NavLink
-                to="/signup"
-                exact
-                style={linkStyles}
-                activestyle={{
-                    background: "darkblue",
-                    color: "white",
-                }}
-            >
-                Sign Up
-            </NavLink>
-            <NavLink
                 to='/add-gym'
                 exact
                 style={linkStyles}
@@ -73,6 +73,17 @@ function Navbar () {
                 }}
             >
                 Add Gym
+            </NavLink>
+            <NavLink
+                to='/add-workout_class'
+                exact
+                style={linkStyles}
+                activestyle={{
+                    background: 'darkblue',
+                    color: 'white',
+                }}
+            >
+                Add Workout Class
             </NavLink>
             
         </div>

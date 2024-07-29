@@ -2,12 +2,14 @@ import React, { useContext, useState } from 'react';
 import Navbar from './Navbar'
 import { AuthContext } from './AuthContext';
 /*import { useHistory } from 'react-router-dom';*/
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { setIsLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
   /*const history = useHistory();*/
 
   const handleLogin = async (e) => {
@@ -30,6 +32,8 @@ const Login = () => {
       const data = await response.json();
       console.log('Login successful', data);
       setIsLoggedIn(true);
+
+      navigate('/');
       
 
       /*history.push('/home')*/

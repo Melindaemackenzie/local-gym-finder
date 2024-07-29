@@ -9,13 +9,14 @@ import * as Yup from "yup";
 
 function Gyms() {
   const [gyms, setGyms] = useState([]);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, userId } = useContext(AuthContext);
   const [selectedGymReviews, setSelectedGymReviews] = useState({});
   const [reviewsVisible, setReviewsVisible] = useState({}); 
   const [showReviewForm, setShowReviewForm] = useState({}); // State to toggle review form
   const [showEditForm, setShowEditForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [editGymData, setEditGymData] = useState({});
+  
 
   useEffect(() => {
     console.log(isLoggedIn)
@@ -89,6 +90,7 @@ function Gyms() {
 
   const handleLeaveReview = (gymId) => {
     console.log(gymId)
+    console.log(userId)
     setShowReviewForm((prev) => ({ ...prev, [gymId]: !prev[gymId] }));
   };
 
@@ -97,11 +99,12 @@ function Gyms() {
 
   
   const handleSubmitReview = (gymId, values) => {
-    const userId = 1;
+    console.log(userId)
     const reviewData = { ...values, gym_id:gymId, user_id: userId};
     console.log(gymId)
     console.log(values)
     console.log(reviewData)
+    console.log("Review data being sent:", JSON.stringify(reviewData));
     fetch(`/gym/${gymId}/reviews`, {
       method: 'POST',
       headers: {
@@ -111,6 +114,7 @@ function Gyms() {
       credentials: 'include',
     })
       .then((response) => {
+        console.log(response)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

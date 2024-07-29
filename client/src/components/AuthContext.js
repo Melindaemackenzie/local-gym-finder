@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId ] = useState(null);
 
 
   const checkSession = async () => {
@@ -14,12 +15,18 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         setIsLoggedIn(data.logged_in);
+        setUserId(data.user_id);
+        if (data.logged_in) {
+          setUserId(data.user_id);
+        }
       } else {
         setIsLoggedIn(false);
+        /*setUserId(null);*/
       }
     } catch (error) {
       console.error("Error checking session:", error);
       setIsLoggedIn(false);
+      /*setUserId(null);*/
     }
   };
 
@@ -28,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, loading }}>
+    <AuthContext.Provider value={{ isLoggedIn, userId, setIsLoggedIn, setUserId, loading }}>
       {children}
     </AuthContext.Provider>
   );
