@@ -5,3 +5,34 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+/* Centering the h1 in Home component */
+h1.Welcome {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Centering the Navbar */
+.navbar-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Centering the links in the Navbar */
+.navbar-container a {
+  margin: 0 10px;
+}
+
+/* Centering the image and making it fit across the entire page */
+.app_pic {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+
+/* Styling the login button */
+.login-button {
+  display: block;
+  margin: 20px auto;
+}

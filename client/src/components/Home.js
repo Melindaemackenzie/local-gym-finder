@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 
+
 function Home(){
     return (
         <div>
@@ -11,7 +12,7 @@ function Home(){
             </Link>
             <hr></hr>
             <hr></hr>
-            <p>Your one-stop spot for all your local fitness needs</p>
+            <p className = 'Page Header'>Your one-stop spot for all your local fitness needs</p>
             <Navbar />
             <img
             className='app_pic'

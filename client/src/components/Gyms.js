@@ -6,6 +6,7 @@ import { AuthContext,  } from "./AuthContext"
 import Navbar from './Navbar'
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import MapComponent from './MapComponent';
 
 function Gyms() {
   const [gyms, setGyms] = useState([]);
@@ -204,7 +205,7 @@ function Gyms() {
     <div>
       <Navbar />
       <h1>Gyms</h1>
-      
+      <MapComponent gyms={gyms} />
       <ul>
         {gyms.map((gym) => (
           <li key={gym.id}>
