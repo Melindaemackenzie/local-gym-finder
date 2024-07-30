@@ -50,7 +50,9 @@ function WorkoutClasses() {
 
             return (
                 <div>
-                  <Navbar />
+                  <div className='navbar-container'>
+                    <Navbar />
+                  </div>
                   <h1>Workout Classes</h1>
                   <ul>
                     {workoutClasses.map((workoutClass) => (

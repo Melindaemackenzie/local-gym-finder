@@ -81,7 +81,10 @@ const AddWorkoutClass = () => {
 
   return (
     <div>
-      <Navbar />
+      <div className='navbar-container'>
+        <Navbar />
+      </div>
+      <div className='form-container'>
       <h2>Add Workout Class</h2>
       {isLoggedIn ? (
         <Formik
@@ -90,27 +93,27 @@ const AddWorkoutClass = () => {
           onSubmit={handleSubmit}
         >
           <Form>
-            <div>
+            <div className ='form-group'>
               <label htmlFor="name">Name</label>
               <Field name="name" type="text" />
               <ErrorMessage name="name" component="div" />
             </div>
-            <div>
+            <div className= 'form-group'>
               <label htmlFor="schedule">Schedule</label>
               <Field name="schedule" type="text" />
               <ErrorMessage name="schedule" component="div" />
             </div>
-            <div>
+            <div className = 'form-group'>
               <label htmlFor="type">Type</label>
               <Field name="type" type="text" />
               <ErrorMessage name="type" component="div" />
             </div>
-            <div>
+            <div className ='form-group'>
               <label htmlFor="rating">Rating</label>
               <Field name="rating" type="number" />
               <ErrorMessage name="rating" component="div" />
             </div>
-            <div>
+            <div className ='form-group'>
               <label htmlFor="gymName">Gym Name</label>
               <Field as="select" name="gym_name">
                 <option value="">Select a gym</option>
@@ -134,6 +137,7 @@ const AddWorkoutClass = () => {
         </div>
       )}
     </div>
+  </div>
   );
 };
 

@@ -5,6 +5,55 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+body {
+  font-family: 'Lato', sans-serif;
+}
+/* Specific styles */
+.lato-thin {
+  font-weight: 100;
+}
+
+.lato-light {
+  font-weight: 300;
+}
+
+.lato-regular {
+  font-weight: 400;
+}
+
+.lato-bold {
+  font-weight: 700;
+}
+
+.lato-black {
+  font-weight: 900;
+}
+
+.lato-thin-italic {
+  font-weight: 100;
+  font-style: italic;
+}
+
+.lato-light-italic {
+  font-weight: 300;
+  font-style: italic;
+}
+
+.lato-regular-italic {
+  font-weight: 400;
+  font-style: italic;
+}
+
+.lato-bold-italic {
+  font-weight: 700;
+  font-style: italic;
+}
+
+.lato-black-italic {
+  font-weight: 900;
+  font-style: italic;
+}
+
 /* Centering the h1 in Home component */
 h1.Welcome {
   text-align: center;
@@ -15,13 +64,37 @@ h1.Welcome {
 .navbar-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 30px;
+  padding: 2rem;
 }
 
 /* Centering the links in the Navbar */
 .navbar-container a {
   margin: 0 10px;
+  text-decoration: none; /* Remove default underline */
+  color: #000; /* Text color for links */
+  padding: 0.5rem; /* Padding around link text */
+  position: relative; /* Position relative for pseudo-element */
 }
+
+/* Style for the underline */
+.navbar-container a::after {
+  content: ''; /* Empty content for pseudo-element */
+  display: block;
+  width: 100%; /* Full width of the link */
+  height: 2px; /* Height of the line */
+  background-color: black; /* Color of the line */
+  position: absolute;
+  bottom: 0; /* Position it at the bottom of the link */
+  left: 0; /* Align it to the left */
+  transform: scaleX(0); /* Start with the line hidden */
+  transition: transform 0.3s ease; /* Smooth transition for the line */
+}
+/* Show the line when hovering over the link */
+.navbar-container a:hover::after {
+  transform: scaleX(1); /* Scale the line to full width on hover */
+}
+
 
 /* Centering the image and making it fit across the entire page */
 .app_pic {
@@ -34,5 +107,233 @@ h1.Welcome {
 /* Styling the login button */
 .login-button {
   display: block;
-  margin: 20px auto;
+  margin: 40px auto;
+  background-color:gray; color: beige;
+  font-family: Arial, Helvetica, sans-serif;
 }
+
+.welcome {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 2em; /* Adjust as needed */
+  font-weight: bold; /* Optional */
+  
+}
+
+.header-image {
+  background-image: url('https://as1.ftcdn.net/v2/jpg/01/35/84/54/1000_F_135845464_A6FOXNWEHJx0p4b5GWrtLVCqTqVZGmPH.jpg'); /* Adjust the path as needed */
+  background-size: cover; /* Cover the entire width of the page */
+  background-position: center;
+  height: 300px; /* Adjust the height as needed */
+  width: 100%;
+}
+
+.page-header {
+  font-size: 1.5em; /* Adjust font size as needed */
+  font-weight: bold; /* Optional */
+  color: #333; /* Optional */
+}
+
+.page-header-container {
+  text-align: center;
+  margin-bottom: 20px; /* Adjust as needed for spacing between header and navbar */
+}
+
+.scrolling-text {
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+  width: 100%;
+  background: #f4f4f4; /* Optional background color */
+  padding: 10px 0; /* Optional padding for better visibility */
+}
+
+/* Ensure the text is displayed inline and scrolls */
+.scrolling-text p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll-left 30s linear infinite;
+  font-size: 3rem;
+}
+
+/* Keyframes for the scrolling effect */
+@keyframes scroll-left {
+  0% {
+      transform: translateX(100%);
+  }
+  100% {
+      transform: translateX(-100%);
+  }
+}
+
+/* Form Container */
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+/* Form Heading */
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Error Message */
+.error {
+  color: red;
+  font-size: 0.875rem;
+}
+
+/* Submit Button */
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+/* Heading for the form */
+.form-heading {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+
+/* Gym List */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center gym blocks horizontally */
+}
+
+li {
+  background: #f4f4f4; /* Light background color */
+  border: 1px solid #ddd; /* Border around gym block */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin: 10px; /* Space around each gym block */
+  padding: 20px; /* Internal padding */
+  width: 300px; /* Fixed width for each gym block */
+  max-width: 100%; /* Ensure responsiveness */
+  box-sizing: border-box; /* Include padding and border in width */
+}
+
+/* Gym Block Content */
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+p {
+  margin: 10px 0;
+}
+
+a {
+  color: #007bff; /* Link color */
+  text-decoration: none; /* Remove underline from links */
+  display: inline-block; /* Allows margin to work on inline elements */
+  margin-bottom: 10px; /* Adjust the value as needed */
+}
+
+a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+button {
+  background-color: #007bff; /* Button color */
+  border: none;
+  border-radius: 4px; /* Rounded button corners */
+  color: #fff; /* Button text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 1rem;
+  padding: 10px 15px;
+  margin: 5px 0; /* Space between buttons */
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker button color on hover */
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+/* Style for the gym items */
+.gym-item {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the start of the container */
+}
+
+/* Style for the 'Visit Website' link */
+.website-link {
+  color: #007bff;
+  text-decoration: none;
+  margin-bottom: 10px; /* Space below the link */
+}
+
+/* Style for the 'Show Reviews' button */
+.show-reviews-button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 10px 15px;
+  margin-bottom: 10px; /* Space below the button */
+}
+
+/* Additional spacing for buttons */
+button {
+  margin: 5px 0;
+}
+

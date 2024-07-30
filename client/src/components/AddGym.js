@@ -58,73 +58,79 @@ const AddGym = () => {
 
     return (
         <div>
-            <Navbar />
+            <div className='navbar-container'>
+                <Navbar />
+            </div>
+            <div className='form-container'>
             <h2>Add Gym</h2>
             {isLoggedIn ? (
-                <div>
-                    {formik.errors.general && <div className="error">{formik.errors.general}</div>}
-                    <form onSubmit={formik.handleSubmit}>
-                        <div>
+                <div className='form-container'>
+                    {formik.errors.general && <div className="error-message">{formik.errors.general}</div>}
+                    <form onSubmit={formik.handleSubmit} className='form'>
+                        <div className='form-group'>
                             <label htmlFor="name">Gym Name</label>
                             <input
                                 id="name"
                                 type="text"
+                                className='form-input'
                                 {...formik.getFieldProps('name')}
                             />
                             {formik.touched.name && formik.errors.name ? (
-                                <div className="error">{formik.errors.name}</div>
+                                <div className="error-message">{formik.errors.name}</div>
                             ) : null}
                         </div>
-                        <div>
+                        <div className='form-group'>
                             <label htmlFor="address">Address</label>
                             <input
                                 id="address"
                                 type="text"
+                                className='form-input'
                                 {...formik.getFieldProps('address')}
                             />
                             {formik.touched.address && formik.errors.address ? (
-                                <div className="error">{formik.errors.address}</div>
+                                <div className="error-message">{formik.errors.address}</div>
                             ) : null}
                         </div>
-                        <div>
+                        <div className='form-group'>
                             <label htmlFor="phone">Phone</label>
                             <input
                                 id="phone"
                                 type="text"
+                                className='form-input'
                                 {...formik.getFieldProps('phone')}
                             />
-                            <p>Phone number must be 10 digits</p>
+                            <p className='helper-text'>Phone number must be 10 digits</p>
                             {formik.touched.phone && formik.errors.phone ? (
-                                <div className="error">{formik.errors.phone}</div>
+                                <div className="error-message">{formik.errors.phone}</div>
                             ) : null}
                         </div>
-                        <div>
+                        <div className='form-group'>
                             <label htmlFor="website">Website</label>
                             <input
                                 id="website"
                                 type="text"
+                                className='form-input'
                                 {...formik.getFieldProps('website')}
                             />
-                            <p>Please enter a complete URL (e.g., http://example.com)</p>
+                            <p className='helper-text'>Please enter a complete URL (e.g., http://example.com)</p>
                             {formik.touched.website && formik.errors.website ? (
-                                <div className="error">{formik.errors.website}</div>
+                                <div className="error-message">{formik.errors.website}</div>
                             ) : null}
                         </div>
-                        <button type="submit">Add Gym</button>
+                        <button type="submit" className='submit-button'>Add Gym</button>
                     </form>
                 </div>
             ) : (
-                <div>
+                <div className='login-prompt'>
                     <p>You must be logged in to add a gym.</p>
                     <Link to="/login">
-                        <button>Log In</button>
+                        <button className='login-button'>Log In</button>
                     </Link>
                 </div>
             )}
         </div>
+    </div>
     );
 };
-
-            
 
 export default AddGym;

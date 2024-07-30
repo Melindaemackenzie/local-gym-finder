@@ -3,25 +3,28 @@ import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 
 
+
 function Home(){
     return (
         <div>
-            <h1 className = 'Welcome'>Local Gym Finder</h1>
-            <Link to="/login">
+        <h1 className='welcome'>Local Gym Finder</h1>
+        <Link to="/login">
+            <div className='button-container'>
                 <button className="login-button">Log In</button>
-            </Link>
-            <hr></hr>
-            <hr></hr>
-            <p className = 'Page Header'>Your one-stop spot for all your local fitness needs</p>
-            <Navbar />
-            <img
-            className='app_pic'
-            src='https://as1.ftcdn.net/v2/jpg/04/29/35/62/1000_F_429356296_CVQ5LkC6Pl55kUNLqLisVKgTw9vjyif1.jpg'
-            alt='app pic'
-            />
+            </div>
+        </Link>
+        <hr />
+        <div className='page-header-container'>
+          <p className='page-header'>Your one-stop spot for all your local fitness needs</p>
         </div>
-    )
-        
-}
+        <div className='scrolling-text'>
+            <p>Please log in or sign up to enjoy the full experience and find your next gym!</p>
+        </div>
+        <div className='navbar-container'>
+          <Navbar />
+        </div>
+      </div>
+    );
+  }
 
 export default Home;

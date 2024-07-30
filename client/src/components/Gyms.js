@@ -7,6 +7,7 @@ import Navbar from './Navbar'
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import MapComponent from './MapComponent';
+import { Link } from 'react-router-dom'
 
 function Gyms() {
   const [gyms, setGyms] = useState([]);
@@ -203,19 +204,23 @@ function Gyms() {
 
   return (
     <div>
-      <Navbar />
-      <h1>Gyms</h1>
+      <div className='navbar-container'>
+        <Navbar />
+      </div>
+      <div className='page-header-container'>
+        <p className='page-header'>Gyms</p>
+      </div>
       <MapComponent gyms={gyms} />
       <ul>
         {gyms.map((gym) => (
-          <li key={gym.id}>
+          <li key={gym.id} className='gym-item'>
             <h2>{gym.name}</h2>
             <p>Address: {gym.address}</p>
             <p>Phone: {gym.phone}</p>
             <a href={gym.website} target="_blank" rel="noopener noreferrer">
               Visit Website
             </a>
-            <button onClick={() => fetchReviews(gym.id)}>
+            <button onClick={() => fetchReviews(gym.id)} className='show-reviews-button'>
               {reviewsVisible[gym.id] ? "Hide Reviews" : "Show Reviews"}
             </button>
             {reviewsVisible[gym.id] && (
@@ -233,37 +238,39 @@ function Gyms() {
             )}
             {isLoggedIn ? (
               <div>
-                <button onClick={() =>handleLeaveReview(gym.id)}>
+                <button onClick={() => handleLeaveReview(gym.id)}>
                   {showReviewForm[gym.id] ? "Cancel Review" : "Leave Review"}
                 </button>
-                {showReviewForm[gym.id]&& (
-                  <ReviewForm onSubmit={(values) => handleSubmitReview(gym.id,values)}/>
-                )} 
+                {showReviewForm[gym.id] && (
+                  <ReviewForm onSubmit={(values) => handleSubmitReview(gym.id, values)} />
+                )}
                 <button onClick={() => handleEditGym(gym)}>
-                  {showEditForm && editGymData?.id === gym.id?   "Cancel" : "Edit Gym"}
+                  {showEditForm && editGymData?.id === gym.id ? "Cancel" : "Edit Gym"}
                 </button>
-                {showEditForm && editGymData.id === gym.id && 
-                  (<EditGymForm gym={editGymData}
+                {showEditForm && editGymData.id === gym.id && (
+                  <EditGymForm
+                    gym={editGymData}
                     onSubmit={handleSubmitEditGym}
                     onCancel={() => setShowEditForm(false)}
                   />
                 )}
-                  
                 <button onClick={() => handleDeleteGym(gym.id)}>
                   Delete Gym
                 </button>
               </div>
             ) : (
-              <p>Please log in to leave a review or manage gyms.</p>
+              <div>
+                <p>Please log in to leave a review or manage gyms.</p>
+                <Link to='/login'>
+                  <button className='login-button'>Log in</button>
+                </Link>
+              </div>
             )}
           </li>
         ))}
       </ul>
-
-      
-  </div>
-);
+    </div>
+  );
 }
 
 export default Gyms;
-      

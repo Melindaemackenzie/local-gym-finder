@@ -54,60 +54,63 @@ const SignupForm = () => {
   });
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      <form onSubmit={formik.handleSubmit}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.username}
-          />
-          {formik.touched.username && formik.errors.username ? (
-            <div className="error">{formik.errors.username}</div>
-          ) : null}
-        </div>
+    <div className='form-container'>
+        <h2 className='form-heading'>Sign Up</h2>
+        <form onSubmit={formik.handleSubmit} className='form'>
+            <div className='form-group'>
+                <label htmlFor="username">Username</label>
+                <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    className='form-input'
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.username}
+                />
+                {formik.touched.username && formik.errors.username ? (
+                    <div className="error-message">{formik.errors.username}</div>
+                ) : null}
+            </div>
 
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <div className="error">{formik.errors.email}</div>
-          ) : null}
-        </div>
+            <div className='form-group'>
+                <label htmlFor="email">Email</label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    className='form-input'
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.email}
+                />
+                {formik.touched.email && formik.errors.email ? (
+                    <div className="error-message">{formik.errors.email}</div>
+                ) : null}
+            </div>
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <div className="error">{formik.errors.password}</div>
-          ) : null}
-        </div>
+            <div className='form-group'>
+                <label htmlFor="password">Password</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    className='form-input'
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                />
+                {formik.touched.password && formik.errors.password ? (
+                    <div className="error-message">{formik.errors.password}</div>
+                ) : null}
+            </div>
 
-        {formik.errors.general && <div className="error">{formik.errors.general}</div>}
+            {formik.errors.general && <div className="error-message">{formik.errors.general}</div>}
 
-        <button type="submit">Sign Up</button>
-      </form>
+            <button type="submit" className='submit-button'>Sign Up</button>
+        </form>
     </div>
-  );
+);
 };
 
 export default SignupForm;

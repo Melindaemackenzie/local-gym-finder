@@ -1,68 +1,91 @@
-import React, { useContext, useState } from 'react';
-import Navbar from './Navbar'
+import React, { useContext } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import Navbar from './Navbar';
 import { AuthContext } from './AuthContext';
-/*import { useHistory } from 'react-router-dom';*/
 import { useNavigate } from 'react-router-dom';
 
+
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
-  /*const history = useHistory();*/
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    
-    try {
-      const response = await fetch('http://localhost:5555/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-        credentials: 'include'
-      });
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required('Username is required'),
+      password: Yup.string().required('Password is required'),
+    }),
+    onSubmit: async (values, { setFieldError }) => {
+      try {
+        const response = await fetch('http://localhost:5555/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+          credentials: 'include',
+        });
 
-      if (!response.ok) {
-        throw new Error('Login failed');
+        if (!response.ok) {
+          throw new Error('Login failed');
+        }
+
+        const data = await response.json();
+        console.log('Login successful', data);
+        setIsLoggedIn(true);
+        navigate('/');
+      } catch (error) {
+        setFieldError('general', 'Invalid username or password');
+        console.error('Login error:', error);
       }
-
-      const data = await response.json();
-      console.log('Login successful', data);
-      setIsLoggedIn(true);
-
-      navigate('/');
-      
-
-      /*history.push('/home')*/
-
-      // Handle successful login
-      // For example, redirect to another page or set a logged-in state
-      
-    } catch (error) {
-      setError('Invalid username or password');
-      console.error('Login error:', error);
     }
-  };
+  });
 
   return (
     <div>
+      <div className='navbar-container'>
         <Navbar />
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
-        <button type="submit">Login</button>
-        {error && <p>{error}</p>}
-      </form>
+      </div>
+      <div className='form-container'>
+        <h2 className='form-heading'>Login</h2>
+        <form onSubmit={formik.handleSubmit} className='form'>
+          <div className='form-group'>
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              className='form-input'
+              {...formik.getFieldProps('username')}
+            />
+            {formik.touched.username && formik.errors.username ? (
+              <div className="error-message">{formik.errors.username}</div>
+            ) : null}
+          </div>
+
+          <div className='form-group'>
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              className='form-input'
+              {...formik.getFieldProps('password')}
+            />
+            {formik.touched.password && formik.errors.password ? (
+              <div className="error-message">{formik.errors.password}</div>
+            ) : null}
+          </div>
+
+          {formik.errors.general && <div className="error-message">{formik.errors.general}</div>}
+
+          <button type="submit" className='submit-button'>Login</button>
+        </form>
+      </div>
     </div>
   );
 };

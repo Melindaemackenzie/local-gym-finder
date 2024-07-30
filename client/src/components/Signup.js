@@ -5,9 +5,10 @@ import Navbar from './Navbar'
 const Signup = () => {
   return (
     <div>
-    <Navbar />
-      <h1>Sign Up Page</h1>
-      <SignupForm />
+      <div className='navbar-container'>
+        <Navbar />
+      </div>
+        <SignupForm />
     </div>
   );
 };

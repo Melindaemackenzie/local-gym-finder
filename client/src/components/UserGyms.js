@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext'; // Assumes you have an AuthContext for user info
+import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar'
 
 const UserGyms = () => {
   const [gyms, setGyms] = useState([]);
   const { userId, isLoggedIn } = useContext(AuthContext); // Access user info from context
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -15,16 +18,27 @@ const UserGyms = () => {
   }, [isLoggedIn, userId]);
 
   if (!isLoggedIn) {
-    return <p>Please log in to view your gyms.</p>;
+    return (
+      <div>
+        <p>Please log in to view your gyms.</p>
+        <button onClick={() => navigate('/login')}>Log In</button>
+      </div>
+    );
   }
 
   return (
     <div>
+      <div className='navbar-container'>
+        <Navbar />
+      </div>
       <h1>Your Gyms</h1>
       {gyms.length > 0 ? (
         <ul>
           {gyms.map(gym => (
-            <li key={gym.id}>{gym.name}</li>
+            <li key={gym.id}>
+              <p>{gym.name}</p>
+              <p>{gym.address}</p>
+            </li>
           ))}
         </ul>
       ) : (

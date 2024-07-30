@@ -14,21 +14,24 @@ import UserGyms from './UserGyms'
 
 function App() {
   return (
+
     <Router>
       <AuthProvider>
         <div className="App">
-        <br />
-          <Routes>
-            <Route path="/" exact ={true} element={<Home />} />
-            <Route path="/gyms" element={<Gyms />} />
-            <Route path="/workout-classes" element={<WorkoutClasses />} />
-            <Route path="/reviews" element={<Reviews />} />
-            <Route path= "/login" element={<Login />} />
-            <Route path= '/signup' element={<Signup />} />
-            <Route path= '/add-gym' element={<AddGym />} />
-            <Route path= '/add-workout_class' element={<AddWorkoutClass />} />
-            <Route path='/user_gym_resource/${userId}' element={<UserGyms />} />
-          </Routes>
+          <img src='https://t4.ftcdn.net/jpg/03/51/22/27/240_F_351222764_DBU75XBKgvorlN1TRwBn0RCw4nPEGGDJ.jpg' alt="Header" className="header-image" />
+          <div className="app-container">
+            <Routes>
+              <Route path="/" exact element={<Home />} />
+              <Route path="/gyms" element={<Gyms />} />
+              <Route path="/workout-classes" element={<WorkoutClasses />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/add-gym" element={<AddGym />} />
+              <Route path="/add-workout_class" element={<AddWorkoutClass />} />
+              <Route path="/user_gym_resource/:userId" element={<UserGyms />} />
+            </Routes>
+          </div>
         </div>
       </AuthProvider>
     </Router>

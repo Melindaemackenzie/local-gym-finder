@@ -53,17 +53,6 @@ function Navbar () {
                 Gyms
             </NavLink>
             <NavLink
-                to="/workout-classes"
-                exact
-                style={linkStyles}
-                activestyle={{
-                    background: "darkblue",
-                    color: "white",
-                }}
-            >
-                Workout Classes
-            </NavLink>
-            <NavLink
                 to='/add-gym'
                 exact
                 style={linkStyles}
@@ -75,6 +64,17 @@ function Navbar () {
                 Add Gym
             </NavLink>
             <NavLink
+                to="/workout-classes"
+                exact
+                style={linkStyles}
+                activestyle={{
+                    background: "darkblue",
+                    color: "white",
+                }}
+            >
+                Workout Classes
+            </NavLink>
+            <NavLink
                 to='/add-workout_class'
                 exact
                 style={linkStyles}
@@ -83,8 +83,10 @@ function Navbar () {
                     color: 'white',
                 }}
             >
-                Add Workout Class
+                Add  Workout Class
             </NavLink>
+            
+            
             <NavLink
                 to='/user_gym_resource/${userId}'
                 exact
@@ -94,7 +96,7 @@ function Navbar () {
                     color: 'white',
                 }}
             >
-                User Gyms
+               View Your Gyms
             </NavLink>
             
         </div>
