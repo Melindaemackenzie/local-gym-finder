@@ -33,24 +33,35 @@ class GymResource(Resource):
         data = request.get_json()
         address = data.get('address')
         phone = data.get('phone')
+        user_id = data.get('userId')
 
         if not re.match(r'^[\d\w\s]+, [\w\s]+, [A-Z]{2} \d{5}$', address):
             return {'error': 'Address must be in the format: Street Address, City, State ZIP'}, 400
 
         if not re.match(r'^\d{3}-\d{3}-\d{4}$', phone):
             return {'error': 'Phone number must be in the format: xxx-xxx-xxxx'}, 400
-
         
-        new_gym = Gym(
-            name=data['name'],
-            address=data.get('address'),
-            phone=data.get('phone'),
-            website=data.get('website')
-        )
-        db.session.add(new_gym)
-        db.session.commit()
-        print(new_gym)
-        return {'message': 'Gym created', 'gym': new_gym.to_dict()}, 201
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+
+        try:
+            new_gym = Gym(
+                name=data['name'],
+                address=data.get('address'),
+                phone=data.get('phone'),
+                website=data.get('website')
+            )
+            db.session.add(new_gym)
+            db.session.commit()
+            print(new_gym)
+
+            user.gyms.append(new_gym)
+            db.session.commit()
+            return {'message': 'Gym created', 'gym': new_gym.to_dict()}, 201
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'error': str(e)}), 500
 
     def put(self, gym_id):
         gym = Gym.query.get(gym_id)

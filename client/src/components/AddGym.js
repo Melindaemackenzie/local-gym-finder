@@ -6,7 +6,7 @@ import { AuthContext } from './AuthContext';
 import Navbar from './Navbar'
 import { Link , useNavigate } from 'react-router-dom';
 const AddGym = () => {
-    const { isLoggedIn } = useContext(AuthContext);
+    const { isLoggedIn, userId } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -39,7 +39,7 @@ const AddGym = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(values),
+                    body: JSON.stringify({...values, userId}),
                 });
 
                 if (!response.ok) {
