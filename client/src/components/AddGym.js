@@ -18,9 +18,13 @@ const AddGym = () => {
         },
         validationSchema: Yup.object({
             name: Yup.string().required('Gym name is required'),
-            address: Yup.string().required('Address is required'),
+            /*address: Yup.string().required('Address is required'),*/
+            address: Yup.string()
+            .matches(/^[\d\w\s]+, [\w\s]+, [A-Z]{2} \d{5}$/, 'Address must be in the format: Street Address, City, State ZIP')
+            .required('Address is required'),
             phone: Yup.string()
-                .matches(/^\d{10}$/, 'Phone number must be exactly 10 digits'),
+            .matches(/^\d{3}-\d{3}-\d{4}$/, 'Phone number must be in the format: xxx-xxx-xxxx')
+            .required('Phone number is required'),
             website: Yup.string().url('Invalid website URL')
         }),
         onSubmit: async (values, { resetForm, setFieldError }) => {

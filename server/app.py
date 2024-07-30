@@ -21,7 +21,7 @@ def index():
 
 api.add_resource(GymResource, '/gym', '/gym/<int:gym_id>')
 api.add_resource(UserResource, '/users')
-api.add_resource(WorkoutClassResource, '/workout_classes', '/workout_classes/<string:name>')
+api.add_resource(WorkoutClassResource, '/workout_classes', '/workout_classes/<int:workout_class_id>')
 api.add_resource(ReviewsResource, '/gym/<int:gym_id>/reviews')
 api.add_resource(Signup, '/signup')
 api.add_resource(Login, '/login')

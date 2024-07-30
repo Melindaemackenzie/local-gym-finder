@@ -4,7 +4,7 @@ from models import *
 from flask import request, jsonify, Blueprint, session, request, make_response
 from flask_cors import CORS, cross_origin
 import traceback
-
+import re
 
 
 
@@ -31,6 +31,16 @@ class GymResource(Resource):
 
     def post(self):
         data = request.get_json()
+        address = data.get('address')
+        phone = data.get('phone')
+
+        if not re.match(r'^[\d\w\s]+, [\w\s]+, [A-Z]{2} \d{5}$', address):
+            return {'error': 'Address must be in the format: Street Address, City, State ZIP'}, 400
+
+        if not re.match(r'^\d{3}-\d{3}-\d{4}$', phone):
+            return {'error': 'Phone number must be in the format: xxx-xxx-xxxx'}, 400
+
+        
         new_gym = Gym(
             name=data['name'],
             address=data.get('address'),
@@ -106,19 +116,26 @@ class UserResource(Resource):
     
 
 class WorkoutClassResource(Resource):
-    def get(self, name=None):
-        if name:
-            workout_class = WorkoutClass.query.filter_by(name=name).first()
-            if not workout_class:
-                return {'error': 'Workout class not found'}, 404
-            return workout_class.to_dict(),200
-        else:
-            type_filter = request.args.get('type')
+    def get(self, workout_class_id=None):
+            if workout_class_id:
+                workout_class = WorkoutClass.query.get(workout_class_id)
+                if not workout_class:
+                    return {'error': 'Workout class not found'}, 404
+                return workout_class.to_dict(), 200
+            else:
+                name = request.args.get('name')
+                type_filter = request.args.get('type')
+            if name:
+                workout_class = WorkoutClass.query.filter_by(name=name).first()
+                if not workout_class:
+                    return {'error': 'Workout class not found'}, 404
+                return workout_class.to_dict(), 200
             if type_filter:
                 workout_classes = WorkoutClass.query.filter_by(type=type_filter).all()
             else:
                 workout_classes = WorkoutClass.query.all()
             return [workout_class.to_dict() for workout_class in workout_classes], 200
+            
         
     def post(self):
         data = request.get_json()
@@ -163,25 +180,6 @@ class WorkoutClassResource(Resource):
             return {'error': 'Internal Server Error'}, 500
         
 
-        if not name or not type or not gym_name:
-            return {'error': 'Missing required fields'}, 400
-        
-        gym = Gym.query.filter_by(name=gym_name).first()
-        if not gym:
-            return {'error': 'Gym not found'}, 404
-        
-        new_workout_class = WorkoutClass(
-            name=name,
-            schedule=schedule,
-            type=type,
-            rating=rating,
-            gym_id=gym.id,
-            user_id=user_id
-        )
-        db.session.add(new_workout_class)
-        db.session.commit()
-        return new_workout_class.to_dict(), 201
-    
     def put(self, id):
         data = request.get_json()
 
@@ -210,13 +208,18 @@ class WorkoutClassResource(Resource):
         db.session.commit()
         return workout_class.to_dict(), 200
     
-    def delete(self):
-        data = request.get_json()
-        workout_class_name = data.get('name')
-
-        workout_class = WorkoutClass.query.filter_by(name=workout_class_name).first()
+    def delete(self, workout_class_id):
+        workout_class = WorkoutClass.query.get(workout_class_id)
         if not workout_class:
             return {'error': 'Workout class not found'}, 404
+
+        db.session.delete(workout_class)
+        db.session.commit()
+        return {'message': 'Workout class deleted'}, 200
+
+        #workout_class = WorkoutClass.query.filter_by(name=workout_class_name).first()
+        #if not workout_class:
+            #return {'error': 'Workout class not found'}, 404
         
         db.session.delete(workout_class)
         db.session.commit()
