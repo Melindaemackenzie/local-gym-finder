@@ -9,7 +9,7 @@ import Signup from "./Signup"
 import Login from "./Login"
 import AddGym from './AddGym';
 import AddWorkoutClass from './AddWorkoutClass';
-
+import UserGyms from './UserGyms'
 
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
             <Route path= '/signup' element={<Signup />} />
             <Route path= '/add-gym' element={<AddGym />} />
             <Route path= '/add-workout_class' element={<AddWorkoutClass />} />
+            <Route path='/user_gym_resource/${userId}' element={<UserGyms />} />
           </Routes>
         </div>
       </AuthProvider>

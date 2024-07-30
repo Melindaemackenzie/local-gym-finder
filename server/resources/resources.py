@@ -335,6 +335,15 @@ class CheckSession(Resource):
         else:
             response = make_response(jsonify({'isLoggedIn': False}), 401)
         return response
+    
+class UserGymsResource(Resource):
+    def get(self, user_id):
+        user = User.query.get(user_id)
+        if not user:
+            return {'error': 'User not found'}, 404
+        return {
+            'gyms': [gym.to_dict() for gym in user.gyms]
+        }, 200
         
     
     

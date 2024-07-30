@@ -35,15 +35,22 @@ def seed_data():
     
     # Create some users
     users = [
-        User(username='john_doe', email='john@example.com', password_hash='password'),
+        User(username='john_doe', email='john@example.com', password_hash='password' ),
         User(username='jane_smith', email='jane@example.com', password_hash='password'),
-        User(username='sam_jones', email='sam@example.com', password_hash='password')
+        User(username='sam_jones', email='sam@example.com', password_hash='password' )
         
     ]
     
     # Add users to session
     
     db.session.add_all(users)
+    db.session.commit()
+
+    #associate users with gyms
+    users[0].gyms.extend([gyms[0], gyms[2]])
+    users[1].gyms.extend([gyms[2], gyms[1]])
+    users[2].gyms.append(gyms[2])
+        
     db.session.commit()
     
     # Create some reviews

@@ -85,6 +85,17 @@ function Navbar () {
             >
                 Add Workout Class
             </NavLink>
+            <NavLink
+                to='/user_gym_resource/${userId}'
+                exact
+                style={linkStyles}
+                activestyle={{
+                    background: 'darkblue',
+                    color: 'white',
+                }}
+            >
+                User Gyms
+            </NavLink>
             
         </div>
    
