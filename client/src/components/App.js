@@ -10,6 +10,7 @@ import Login from "./Login"
 import AddGym from './AddGym';
 import AddWorkoutClass from './AddWorkoutClass';
 import UserGyms from './UserGyms'
+import Footer from './Footer'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <div className="App">
           <img src='https://t4.ftcdn.net/jpg/03/51/22/27/240_F_351222764_DBU75XBKgvorlN1TRwBn0RCw4nPEGGDJ.jpg' alt="Header" className="header-image" />
           <div className="app-container">
+            <main>
             <Routes>
               <Route path="/" exact element={<Home />} />
               <Route path="/gyms" element={<Gyms />} />
@@ -31,6 +33,8 @@ function App() {
               <Route path="/add-workout_class" element={<AddWorkoutClass />} />
               <Route path="/user_gym_resource/:userId" element={<UserGyms />} />
             </Routes>
+            </main>
+            <Footer />
           </div>
         </div>
       </AuthProvider>

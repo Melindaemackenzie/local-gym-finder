@@ -94,6 +94,8 @@ class GymResource(Resource):
             print(f"Error deleting gym: {e}")  # Log the error
             db.session.rollback()  # Rollback in case of error
             return jsonify({'error': 'Internal Server Error'}), 500
+        
+    
     
     
 class UserResource(Resource):
@@ -125,7 +127,7 @@ class UserResource(Resource):
 
         return new_user.to_dict(), 201
     
-
+    
 class WorkoutClassResource(Resource):
     def get(self, workout_class_id=None):
             if workout_class_id:
@@ -356,6 +358,27 @@ class UserGymsResource(Resource):
             'gyms': [gym.to_dict() for gym in user.gyms]
         }, 200
         
-    
-    
 
+    @cross_origin()
+    def post(self):
+        if 'user_id' not in session:
+            return {'error': 'User not logged in'}, 401
+        
+        user_id = session['user_id']
+        user = User.query.get(user_id)
+        gym_id = request.json.get('gym_id')
+        gym = Gym.query.get(gym_id)
+
+        if not user:
+            return {'error': 'User not found'}, 404
+        if not gym:
+            return {'error': 'Gym not found'}, 404
+        
+        if gym in user.gyms:
+            return {'error': 'Gym already added to user\'s gyms'}, 400
+        
+        user.gyms.append(gym)
+        db.session.commit()
+
+        return {'message': 'Gym added to user\'s gyms'}, 200
+    

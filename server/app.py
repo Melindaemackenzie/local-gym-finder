@@ -26,7 +26,7 @@ api.add_resource(ReviewsResource, '/gym/<int:gym_id>/reviews')
 api.add_resource(Signup, '/signup')
 api.add_resource(Login, '/login')
 api.add_resource(CheckSession, '/session')
-api.add_resource(UserGymsResource, '/user_gym_resource/<int:user_id>')
+api.add_resource(UserGymsResource, '/user_gym_resource/<int:user_id>', '/user_gym_resource/add_to_user_gyms')
 
 
 

@@ -129,7 +129,7 @@ const AddWorkoutClass = () => {
           </Form>
         </Formik>
       ) : (
-        <div>
+        <div className='login-prompt'>
         <p>You must be logged in to add a workout class.</p>
         <Link to="/login">
                         <button>Log In</button>

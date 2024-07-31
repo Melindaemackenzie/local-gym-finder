@@ -28,6 +28,7 @@ const AddGym = () => {
             website: Yup.string().url('Invalid website URL')
         }),
         onSubmit: async (values, { resetForm, setFieldError }) => {
+            console.log('Form submitted', values);
             if (!isLoggedIn) {
                 setFieldError('general', 'You must be logged in to add a gym.');
                 return;

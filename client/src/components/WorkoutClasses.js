@@ -53,7 +53,9 @@ function WorkoutClasses() {
                   <div className='navbar-container'>
                     <Navbar />
                   </div>
-                  <h1>Workout Classes</h1>
+                  <div className='page-header-container'>
+                    <p className='page-header'>Workout Classes</p>
+                  </div>
                   <ul>
                     {workoutClasses.map((workoutClass) => (
                       <li key={workoutClass.id}>

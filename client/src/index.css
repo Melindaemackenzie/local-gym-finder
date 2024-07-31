@@ -337,3 +337,65 @@ button {
   margin: 5px 0;
 }
 
+.map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* Adjust based on your page height */
+}
+
+.map-container > div {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Add shadow */
+  border-radius: 8px; /* Optional: add rounded corners */
+  overflow: hidden; /* Ensure rounded corners work */
+}
+
+.login-prompt {
+  text-align: center; /* Centers text inside the login prompt */
+  padding: 20px; /* Adds some padding around the content */
+  border: 1px solid #ccc; /* Optional: Adds a border around the prompt */
+  border-radius: 8px; /* Optional: Adds rounded corners */
+  background-color: #f9f9f9; /* Optional: Adds a background color */
+}
+
+.footer {
+  background-color: #333; /* Dark background color */
+  color: #fff; /* Light text color */
+  text-align: center; /* Center text */
+  padding: 20px; /* Add some padding */
+  position: relative; /* Fix the footer to the bottom */
+  bottom: 0; /* Align to the bottom of the page */
+  left: 0;
+  width: 100%; /* Full width */
+  z-index: 1000;
+}
+
+.footer p {
+  margin: 5px 0; /* Add some space between paragraphs */
+}
+
+.footer a {
+  color: #fff; /* Light color for links */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.footer a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+.app {
+  min-height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+}
+
+main {
+  flex: 1; /* Allow main content to grow and take available space */
+  padding-bottom: 80px; /* Add padding at the bottom to make space for the footer */
+}
+
+.footer-quote {
+  font-size: 1.2em; /* Adjust font size as needed */
+  font-style: bold; /* Optional: italicize the quote */
+  margin: 0; /* Remove default margin */
+}

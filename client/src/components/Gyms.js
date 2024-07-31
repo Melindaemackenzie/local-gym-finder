@@ -202,6 +202,38 @@ function Gyms() {
   });
 
 
+  const handleAddGymToMyGyms = (gymId) => {
+    fetch(`/user_gym_resource/add_to_user_gyms`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ gym_id: gymId }),
+      credentials: 'include',
+    })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(data.error || 'Failed to add gym to user\'s gyms');
+          });
+        }
+        console.log(response)
+        return response.json();
+      })
+      
+      .then(data => {
+        alert(data.message);
+      })
+      .catch(error => {
+        console.error('Error adding gym to user\'s gyms:', error.message);
+      });
+  };
+
+  
+
+
+
+
   return (
     <div>
       <div className='navbar-container'>
@@ -257,6 +289,9 @@ function Gyms() {
                 <button onClick={() => handleDeleteGym(gym.id)}>
                   Delete Gym
                 </button>
+                <button onClick={() => handleAddGymToMyGyms(gym.id)}>
+                Add Gym to My Gyms
+              </button>
               </div>
             ) : (
               <div>
@@ -264,6 +299,7 @@ function Gyms() {
                 <Link to='/login'>
                   <button className='login-button'>Log in</button>
                 </Link>
+                
               </div>
             )}
           </li>

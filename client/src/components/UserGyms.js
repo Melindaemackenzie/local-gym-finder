@@ -20,9 +20,14 @@ const UserGyms = () => {
   if (!isLoggedIn) {
     return (
       <div>
-        <p>Please log in to view your gyms.</p>
+        <div className ='navbar-container'>
+          <Navbar />
+        </div>
+      <div className='page-header-container'>
+        <p className= 'page-header'>Please log in to view your gyms.</p>
         <button onClick={() => navigate('/login')}>Log In</button>
       </div>
+    </div>
     );
   }
 
@@ -31,7 +36,9 @@ const UserGyms = () => {
       <div className='navbar-container'>
         <Navbar />
       </div>
-      <h1>Your Gyms</h1>
+      <div className = 'page-header-container'>
+        <p className= 'page-header'>Your Gyms</p>
+      </div>
       {gyms.length > 0 ? (
         <ul>
           {gyms.map(gym => (

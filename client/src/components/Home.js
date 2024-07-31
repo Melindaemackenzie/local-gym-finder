@@ -8,14 +8,12 @@ function Home(){
     return (
         <div>
         <h1 className='welcome'>Local Gym Finder</h1>
+        <div className='page-header-container'>
         <Link to="/login">
-            <div className='button-container'>
-                <button className="login-button">Log In</button>
-            </div>
+            <button className="login-button">Log In</button>
         </Link>
         <hr />
-        <div className='page-header-container'>
-          <p className='page-header'>Your one-stop spot for all your local fitness needs</p>
+            <p className='page-header'>Your one-stop spot for all your local fitness needs</p>
         </div>
         <div className='scrolling-text'>
             <p>Please log in or sign up to enjoy the full experience and find your next gym!</p>
