@@ -226,6 +226,7 @@ function Gyms() {
       })
       .catch(error => {
         console.error('Error adding gym to user\'s gyms:', error.message);
+        alert('Gym already in your gyms')
       });
   };
 

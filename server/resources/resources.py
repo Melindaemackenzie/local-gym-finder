@@ -5,6 +5,7 @@ from flask import request, jsonify, Blueprint, session, request, make_response
 from flask_cors import CORS, cross_origin
 import traceback
 import re
+from sqlalchemy.sql import text
 
 
 
@@ -230,13 +231,19 @@ class WorkoutClassResource(Resource):
         db.session.commit()
         return {'message': 'Workout class deleted'}, 200
 
-        #workout_class = WorkoutClass.query.filter_by(name=workout_class_name).first()
-        #if not workout_class:
-            #return {'error': 'Workout class not found'}, 404
+#class GetHardestWorkoutClass(Resource):
+    #def get(self):
+        # Query for the workout class with the highest rating
+        #highest_rated_workout_class = WorkoutClass.query.order_by(WorkoutClass.rating.desc()).first()
         
-        db.session.delete(workout_class)
-        db.session.commit()
-        return {'message': 'Workout class deleted'}, 200
+        #if highest_rated_workout_class is None:
+            #return {'message': 'No workout classes found'}, 404
+        
+        # Serialize the result
+        #serialized = highest_rated_workout_class.to_dict()
+        
+        #return serialized, 200
+    
     
 class ReviewsResource(Resource):
    
@@ -336,6 +343,7 @@ class Login(Resource):
             return {'error': 'Invalid username or password'}, 401
 
         session['user_id'] = user.id
+        print('Session after login:', session)
 
         return {'message': 'Logged in successfully'}, 200
 
@@ -360,25 +368,42 @@ class UserGymsResource(Resource):
         
 
     @cross_origin()
+    
+    
     def post(self):
-        if 'user_id' not in session:
-            return {'error': 'User not logged in'}, 401
-        
-        user_id = session['user_id']
-        user = User.query.get(user_id)
-        gym_id = request.json.get('gym_id')
-        gym = Gym.query.get(gym_id)
+            data = request.get_json()
+            gym_id = data.get('gym_id')
+            note = data.get('note')
 
-        if not user:
-            return {'error': 'User not found'}, 404
-        if not gym:
-            return {'error': 'Gym not found'}, 404
-        
-        if gym in user.gyms:
-            return {'error': 'Gym already added to user\'s gyms'}, 400
-        
-        user.gyms.append(gym)
-        db.session.commit()
+            if not gym_id or not note:
+                return {'error': 'Missing gym_id or note'}, 400
 
-        return {'message': 'Gym added to user\'s gyms'}, 200
+            user_id = session.get('user_id')
+            if not user_id:
+                return {'error': 'User not logged in'}, 401
+
+            # Check if gym_user association exists
+            gym_user = db.session.execute(
+                text('SELECT * FROM gym_user WHERE gym_id = :gym_id AND user_id = :user_id'),
+                {'gym_id': gym_id, 'user_id': user_id}
+            ).fetchone()
+
+            if not gym_user:
+                return {'error': 'Gym-user association not found'}, 404
+
+            # Add or update note
+            existing_note = GymUserNote.query.filter_by(user_id=user_id, gym_id=gym_id).first()
+            if existing_note:
+                existing_note.note = note
+            else:
+                new_note = GymUserNote(user_id=user_id, gym_id=gym_id, note=note)
+                db.session.add(new_note)
+
+            db.session.commit()
+
+            return {'message': 'Note added/updated successfully'}, 200
+    
+    
+
+
     

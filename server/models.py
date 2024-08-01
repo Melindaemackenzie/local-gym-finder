@@ -6,7 +6,8 @@ from config import db
 #association table for gym and user (gym has many users, user has many gyms)
 gym_user = db.Table('gym_user',
     db.Column('gym_id', db.Integer, db.ForeignKey('gyms.id'), primary_key=True),
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    #db.Column('note', db.String(500))  # Add the note column
 )
 
 class Gym(db.Model, SerializerMixin):
@@ -19,9 +20,11 @@ class Gym(db.Model, SerializerMixin):
     address = db.Column(db.String(200), nullable=False)
     phone = db.Column(db.String(13))
     website = db.Column(db.String(200))
+    
     workout_classes = db.relationship('WorkoutClass', back_populates='gym', lazy=True, cascade="all, delete-orphan")#Delete workout classes when gym is deleted
     users = db.relationship('User', secondary=gym_user, back_populates='gyms', lazy='dynamic')
     reviews = db.relationship('Review', back_populates='gym', lazy=True, cascade="all, delete-orphan")#Delete reviews when gym is deleted
+    user_notes = db.relationship('GymUserNote', back_populates='gym')
 
     def to_dict(self):
         return {
@@ -47,12 +50,25 @@ class User(db.Model, SerializerMixin):
 
     #Define the many-to-many relationship with Gym
     gyms = db.relationship('Gym', secondary=gym_user, back_populates='users', lazy='dynamic')
+    gym_notes = db.relationship('GymUserNote', back_populates='user')
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+class GymUserNote(db.Model):
+    __tablename__ = 'gym_user_notes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    gym_id = db.Column(db.Integer, db.ForeignKey('gyms.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    note = db.Column(db.String(500))
+
+    # Define relationships to Gym and User
+    gym = db.relationship('Gym', back_populates='user_notes')
+    user = db.relationship('User', back_populates='gym_notes')
     
 class Review(db.Model, SerializerMixin):
     __tablename__= 'reviews'
@@ -102,6 +118,8 @@ class WorkoutClass(db.Model, SerializerMixin):
             'gym_id': self.gym_id,
             'gym_name': self.gym.name
             }
+    
+
 
     #@property
     #def serialize(self):
