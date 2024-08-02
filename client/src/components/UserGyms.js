@@ -16,6 +16,8 @@ const UserGyms = () => {
         fetch(`http://localhost:5555/user_gym_resource/${userId}`)
         .then(response => response.json())
         .then(data => {
+          console.log('Fetched gyms:', data.gyms);
+          console.log(userId);
           const gymsWithNotes = data.gyms.map(gym => ({
             ...gym,
             notes: gym.notes || [] // Initialize notes as an array if not present

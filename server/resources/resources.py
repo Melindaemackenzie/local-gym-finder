@@ -346,6 +346,17 @@ class Login(Resource):
         print('Session after login:', session)
 
         return {'message': 'Logged in successfully'}, 200
+    
+class Logout(Resource):
+    @cross_origin(supports_credentials=True) 
+    def post(self):
+        if 'user_id' in session:
+            session.pop('user_id')
+            session.clear()
+            print('Session after logout:', session)
+            return {'message': 'Logged out successfully'}, 200
+        else:
+            return {'error': 'User not logged in'}, 400
 
 
 class CheckSession(Resource):
@@ -406,4 +417,13 @@ class UserGymsResource(Resource):
     
 
 
-    
+    #class PostsWithHighReviews(Resource):
+        #def get(self):
+            #Posts = post.query.join(Review).filter(review.rating == 5).all()
+
+            #if posts :
+                #serialized_posts = [post.to_dict() for post in posts]
+                    #return jsonify(serialized_posts)
+            
+            #else:
+                #return {'message': 'No Posts found with rating of 5'}, 404

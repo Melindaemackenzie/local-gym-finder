@@ -11,6 +11,7 @@ import AddGym from './AddGym';
 import AddWorkoutClass from './AddWorkoutClass';
 import UserGyms from './UserGyms'
 import Footer from './Footer'
+import Logout from "./Logout"
 
 
 function App() {
@@ -28,10 +29,12 @@ function App() {
               <Route path="/workout-classes" element={<WorkoutClasses />} />
               <Route path="/reviews" element={<Reviews />} />
               <Route path="/login" element={<Login />} />
+              <Route path ="/logout" element={<Logout />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/add-gym" element={<AddGym />} />
               <Route path="/add-workout_class" element={<AddWorkoutClass />} />
               <Route path="/user_gym_resource/:userId" element={<UserGyms />} />
+              
             </Routes>
             </main>
             <Footer />

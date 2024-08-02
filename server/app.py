@@ -9,7 +9,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api
 from models import *
-from resources.resources import GymResource, UserResource, WorkoutClassResource, ReviewsResource, Login, Signup, CheckSession, UserGymsResource
+from resources.resources import GymResource, UserResource, WorkoutClassResource, ReviewsResource, Login, Signup, CheckSession, UserGymsResource, Logout
 
 
 # Views go here!
@@ -25,6 +25,7 @@ api.add_resource(WorkoutClassResource, '/workout_classes', '/workout_classes/<in
 api.add_resource(ReviewsResource, '/gym/<int:gym_id>/reviews')
 api.add_resource(Signup, '/signup')
 api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout')
 api.add_resource(CheckSession, '/session')
 api.add_resource(UserGymsResource, '/user_gym_resource/<int:user_id>', '/user_gym_resource/add_to_user_gyms', '/user_gym_resource/add_note')
 
