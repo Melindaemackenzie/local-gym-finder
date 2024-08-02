@@ -379,28 +379,34 @@ class UserGymsResource(Resource):
         
 
     @cross_origin()
-    
-    
     def post(self):
             data = request.get_json()
             gym_id = data.get('gym_id')
             note = data.get('note')
 
-            if not gym_id or not note:
-                return {'error': 'Missing gym_id or note'}, 400
+            if not gym_id:
+                return {'error': 'Missing gym_id'}, 400
+            if note is None:
+                note = ''
 
             user_id = session.get('user_id')
             if not user_id:
                 return {'error': 'User not logged in'}, 401
 
             # Check if gym_user association exists
-            gym_user = db.session.execute(
+            # Check if gym-user association exists
+            association_exists = db.session.execute(
                 text('SELECT * FROM gym_user WHERE gym_id = :gym_id AND user_id = :user_id'),
                 {'gym_id': gym_id, 'user_id': user_id}
             ).fetchone()
 
-            if not gym_user:
-                return {'error': 'Gym-user association not found'}, 404
+            if not association_exists:
+            # Add gym-user association if it does not exist
+                db.session.execute(
+                    text('INSERT INTO gym_user (gym_id, user_id) VALUES (:gym_id, :user_id)'),
+                    {'gym_id': gym_id, 'user_id': user_id}
+                )
+                db.session.commit()
 
             # Add or update note
             existing_note = GymUserNote.query.filter_by(user_id=user_id, gym_id=gym_id).first()

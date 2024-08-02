@@ -64,7 +64,7 @@ class GymUserNote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gym_id = db.Column(db.Integer, db.ForeignKey('gyms.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    note = db.Column(db.String(500))
+    note = db.Column(db.String(500), nullable = True)
 
     # Define relationships to Gym and User
     gym = db.relationship('Gym', back_populates='user_notes')
